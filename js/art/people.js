@@ -4,7 +4,7 @@ import { s } from '../engine/svg.js';
 import { OUT, heart, starPath } from './items.js';
 import { spriteInfo } from '../engine/sprites.js';
 
-const SPRITE_H = 152; // altura de um adulto no desenho (antes de `size`)
+const SPRITE_H = 168; // altura de um adulto no desenho (antes de `size`)
 
 const st = (w = 3) => ({ stroke: OUT, 'stroke-width': w, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' });
 let uid = 0;

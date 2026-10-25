@@ -41,11 +41,13 @@ export const CHARACTERS = {
     name: 'Papai Bruno', short: 'Papai', size: 1.04,
     outfit: '#5FA8DC', pants: '#5B6B8C', skin: '#E2AE86', hair: '#4A3328', hairStyle: 'short',
     badge: 'ball', photo: null, voicePitch: 0.8,
+    sprite: 'images/personagens/papai.webp',
   },
   teteu: {
     name: 'Teteu', short: 'Teteu', size: 0.86,
     outfit: '#7CC37A', pants: '#4F6E8F', skin: '#EDBE98', hair: '#5A3B2A', hairStyle: 'curly',
     badge: 'cone', photo: null, voicePitch: 1.25,
+    sprite: 'images/personagens/teteu.webp',
   },
   laura: {
     name: 'Tia Laura', short: 'Tia Laura', size: 0.98,
