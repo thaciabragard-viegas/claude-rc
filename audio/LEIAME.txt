@@ -1,0 +1,1 @@
+Gravações opcionais das falas da família (veja docs/PERSONALIZACAO.md).

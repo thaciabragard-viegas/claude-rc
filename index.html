@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <!-- Sem user-scalable=no: o zoom da página continua disponível (acessibilidade);
+       só a área do jogo bloqueia gestos com touch-action. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#BFE6FF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Mel & Bela">
+  <meta name="description" content="Mel & Bela — Uma Patinha de Aventura. Um jogo para a Mel brincar com a Bela.">
+  <title>Mel & Bela</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/bela.css">
+</head>
+<body>
+  <div id="app" aria-live="off">
+    <svg id="stage" viewBox="0 0 390 780" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jardim da Mel e da Bela"><defs id="game-defs"></defs></svg>
+    <div id="fx"></div>
+    <div id="ui"></div>
+    <div id="hud"></div>
+    <div id="caption" role="status" aria-live="polite"></div>
+    <div id="fade" class="on"></div>
+  </div>
+  <noscript>Este jogo precisa de JavaScript ativado.</noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

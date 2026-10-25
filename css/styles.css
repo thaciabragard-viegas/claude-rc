@@ -1,0 +1,232 @@
+/* Mel & Bela — estilos gerais. Paleta: creme, pêssego, amarelo suave, azul-céu, verde e coral. */
+:root {
+  --cream: #FFF6E6;
+  --peach: #FFD3B0;
+  --yellow: #FFE58F;
+  --sky: #BFE6FF;
+  --green: #A8D88C;
+  --coral: #FF7F6B;
+  --brown: #6B4A3A;
+  --btn: 60px;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #A8D88C;
+  color: var(--brown);
+  font-family: ui-rounded, "SF Pro Rounded", "Nunito", "Arial Rounded MT Bold", system-ui, sans-serif;
+  overscroll-behavior: none;
+}
+
+body { overflow: hidden; position: fixed; inset: 0; }
+
+#app {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(#BFE6FF 0 40%, #A8D88C 40% 100%);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Na área de jogo, os gestos são do jogo: sem rolagem nem zoom por pinça acidental.
+   A página continua com zoom permitido no viewport (acessibilidade). */
+#stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  display: block;
+}
+
+#ui, #hud { position: absolute; inset: 0; pointer-events: none; }
+#ui > *, #hud > * { pointer-events: auto; }
+
+/* ---------- botões ---------- */
+.btn {
+  appearance: none;
+  border: 3px solid var(--brown);
+  background: var(--cream);
+  border-radius: 50%;
+  width: var(--btn);
+  height: var(--btn);
+  min-width: 56px;
+  min-height: 56px;
+  padding: 10px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 0 rgba(107, 74, 58, 0.35);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.btn svg { width: 100%; height: 100%; }
+.btn:active, .btn.pressed { transform: translateY(3px); box-shadow: 0 1px 0 rgba(107, 74, 58, 0.35); }
+.btn:focus-visible { outline: 4px solid #5FA8DC; outline-offset: 3px; }
+.btn[disabled] { opacity: 0.5; }
+
+.btn.big { --btn: 112px; padding: 20px; background: var(--coral); box-shadow: 0 6px 0 #C9584A; }
+.btn.big.pulse { animation: pulse 1.6s ease-in-out infinite; }
+.btn.mid { --btn: 88px; padding: 16px; }
+.btn.yellow { background: var(--yellow); }
+.btn.sky { background: var(--sky); }
+.btn.peach { background: var(--peach); }
+.btn.green { background: var(--green); }
+
+/* telas baixas (ex.: iPhone SE): botões grandes um pouco menores para não cobrir personagens */
+@media (max-height: 640px) {
+  .btn.big { --btn: 88px; padding: 16px; }
+  .end-row { bottom: calc(18px + var(--safe-b)); }
+  .end-row .btn { --btn: 76px; padding: 14px; }
+}
+
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.07); } }
+
+/* ---------- HUD persistente ---------- */
+#hud .hud-left { position: absolute; top: calc(10px + var(--safe-t)); left: calc(10px + var(--safe-l)); display: flex; gap: 10px; }
+#hud .hud-right { position: absolute; top: calc(10px + var(--safe-t)); right: calc(10px + var(--safe-r)); display: flex; gap: 10px; }
+#hud .btn { --btn: 56px; padding: 8px; background: rgba(255, 246, 230, 0.92); }
+#hud.hidden-home .home { visibility: hidden; }
+#hud.no-hud { display: none; }
+#hud .btn.glow { animation: glow 1.2s ease-in-out 3; }
+@keyframes glow { 50% { box-shadow: 0 0 0 8px rgba(255, 229, 143, 0.9); } }
+
+/* ---------- legenda ---------- */
+#caption {
+  position: absolute;
+  left: 50%;
+  top: calc(76px + var(--safe-t));
+  transform: translate(-50%, -10px);
+  max-width: min(86vw, 460px);
+  background: rgba(255, 246, 230, 0.92);
+  border: 2px solid rgba(107, 74, 58, 0.6);
+  border-radius: 18px;
+  padding: 6px 14px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+}
+#caption.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- transição ---------- */
+#fade { position: absolute; inset: 0; background: var(--cream); opacity: 0; pointer-events: none; transition: opacity 0.28s ease; }
+#fade.on { opacity: 1; pointer-events: auto; }
+
+/* ---------- camada de respingos (banho) ---------- */
+#fx { position: absolute; inset: 0; pointer-events: none; }
+.splash-drop {
+  position: absolute;
+  width: 74px; height: 74px;
+  margin: -37px 0 0 -37px;
+  border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95) 0 12%, rgba(191,230,255,0.75) 13% 60%, rgba(124,198,242,0.6) 61%);
+  border: 3px solid rgba(74, 155, 209, 0.6);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  animation: dropIn 0.35s ease-out;
+}
+.splash-drop.gone { transform: scale(0.2); opacity: 0; }
+@keyframes dropIn { from { transform: scale(0.2); } to { transform: scale(1); } }
+
+/* ---------- elementos de cena em HTML ---------- */
+.row { position: absolute; left: 0; right: 0; display: flex; justify-content: center; gap: 18px; }
+.end-row { bottom: calc(40px + var(--safe-b)); gap: 22px; }
+.end-row .btn { --btn: 92px; padding: 18px; }
+
+.skip { position: absolute; right: calc(12px + var(--safe-r)); bottom: calc(22px + var(--safe-b)); }
+
+.title-wrap { position: absolute; left: 0; right: 0; top: calc(78px + var(--safe-t)); text-align: center; pointer-events: none; }
+.title-wrap h1 { margin: 0; font-size: clamp(40px, 13vw, 62px); letter-spacing: 1px; color: var(--coral); -webkit-text-stroke: 2px var(--brown); paint-order: stroke fill; text-shadow: 0 4px 0 rgba(107,74,58,0.25); }
+.title-wrap p { margin: 2px 0 0; font-size: clamp(17px, 5vw, 22px); font-weight: 800; }
+
+.gear { position: absolute; right: calc(10px + var(--safe-r)); bottom: calc(10px + var(--safe-b)); opacity: 0.55; }
+.gear .btn { --btn: 48px; min-width: 48px; min-height: 48px; padding: 8px; box-shadow: none; }
+
+/* ---------- área adulta ---------- */
+.adult {
+  position: absolute; inset: 0; background: rgba(60, 40, 30, 0.45); display: grid; place-items: center; z-index: 30;
+  padding: calc(16px + var(--safe-t)) 16px calc(16px + var(--safe-b));
+}
+.panel {
+  background: var(--cream); border: 3px solid var(--brown); border-radius: 22px; padding: 18px 18px 14px;
+  width: min(100%, 440px); max-height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  touch-action: pan-y; font-size: 16px; line-height: 1.4; user-select: text; -webkit-user-select: text;
+}
+.panel h2 { margin: 0 0 8px; font-size: 21px; }
+.panel h3 { margin: 16px 0 6px; font-size: 17px; }
+.panel p, .panel li { margin: 4px 0; }
+.panel label { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 10px; margin: 10px 0; font-weight: 700; }
+.panel input[type=range] { width: 100%; height: 36px; accent-color: var(--coral); }
+.panel .toggle { display: flex; align-items: center; gap: 10px; grid-template-columns: none; }
+.panel .toggle input { width: 26px; height: 26px; accent-color: var(--coral); }
+.panel .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.tbtn {
+  appearance: none; border: 3px solid var(--brown); border-radius: 16px; background: var(--yellow); color: var(--brown);
+  font: inherit; font-weight: 800; padding: 10px 16px; min-height: 48px; cursor: pointer; touch-action: manipulation;
+}
+.tbtn.danger { background: #FFB3A7; }
+.tbtn.ghost { background: transparent; }
+.gate-hold { position: relative; width: 120px; height: 120px; margin: 14px auto; display: grid; place-items: center; touch-action: none; }
+.gate-hold svg { position: absolute; inset: 0; }
+.gate-hold span { font-weight: 800; font-size: 14px; text-align: center; padding: 0 16px; pointer-events: none; }
+.gate-nums { display: flex; justify-content: center; gap: 10px; margin: 12px 0; }
+.gate-nums .tbtn { width: 64px; height: 64px; font-size: 28px; padding: 0; }
+.close-x { float: right; }
+.small { font-size: 14px; opacity: 0.85; }
+
+/* ---------- SVG: elementos interativos ---------- */
+.hotspot { cursor: pointer; }
+.halo { animation: halo 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes halo { 0%, 100% { opacity: 0.55; transform: scale(0.94); } 50% { opacity: 0.95; transform: scale(1.04); } }
+.suggest .halo { animation-duration: 1.2s; }
+.badge-bob { animation: bob 2.4s ease-in-out infinite; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.glow-soft { animation: glowsoft 1s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes glowsoft { 0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 229, 143, 0)); } 50% { filter: drop-shadow(0 0 10px rgba(255, 220, 110, 1)); } }
+.wiggle { animation: wiggle 0.5s ease-in-out 2; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes wiggle { 25% { transform: rotate(-6deg); } 75% { transform: rotate(6deg); } }
+.drift { animation: drift 30s linear infinite alternate; }
+.drift.slow { animation-duration: 44s; }
+@keyframes drift { from { translate: -20px 0; } to { translate: 30px 0; } }
+
+.hint-hand { pointer-events: none; }
+.hint-hand .hand-ring { opacity: 0; }
+.hint-hand.tapping .hand-ring { animation: ring 0.9s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes ring { from { opacity: 0.9; transform: scale(0.4); } to { opacity: 0; transform: scale(1.6); } }
+
+.butterfly .wing { animation: flap 0.18s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 100% 50%; }
+.butterfly .wing-r { transform-origin: 0% 50%; }
+@keyframes flap { to { transform: scaleX(0.3); } }
+
+.person .p-arm-r { transform-box: fill-box; transform-origin: 50% 8%; }
+.person.waving .p-arm-r { animation: wave 0.5s ease-in-out infinite alternate; }
+@keyframes wave { from { transform: rotate(-150deg); } to { transform: rotate(-120deg); } }
+.person .p-body { animation: breathe 3s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+.person.cheering .p-body { animation: hop 0.5s ease-in-out infinite; }
+@keyframes breathe { 50% { transform: scaleY(1.015); } }
+@keyframes hop { 50% { transform: translateY(-10px); } }
+.person .p-eyes { animation: blink 4.2s infinite; transform-box: fill-box; transform-origin: center; }
+
+.cbox .flap-l, .cbox .flap-r { transform-box: fill-box; transition: transform 0.35s ease; }
+.cbox .flap-l { transform-origin: 0% 100%; }
+.cbox .flap-r { transform-origin: 100% 100%; }
+.cbox.open .flap-l { transform: rotate(-70deg); }
+.cbox.open .flap-r { transform: rotate(70deg); }
+
+.spot-visited { opacity: 0.8; }
+
+@media (prefers-reduced-motion: reduce) {
+  .halo, .drift, .badge-bob, .btn.big.pulse, .glow-soft { animation: none !important; }
+}

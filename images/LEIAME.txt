@@ -1,0 +1,1 @@
+Fotos opcionais dos personagens (veja docs/PERSONALIZACAO.md).
