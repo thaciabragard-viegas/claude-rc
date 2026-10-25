@@ -217,6 +217,8 @@ body { overflow: hidden; position: fixed; inset: 0; }
 .person.cheering .p-body { animation: hop 0.5s ease-in-out infinite; }
 @keyframes breathe { 50% { transform: scaleY(1.015); } }
 @keyframes hop { 50% { transform: translateY(-10px); } }
+.person.waving .p-sprite { animation: sway 0.6s ease-in-out infinite alternate; }
+@keyframes sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
 .person .p-eyes { animation: blink 4.2s infinite; transform-box: fill-box; transform-origin: center; }
 
 .cbox .flap-l, .cbox .flap-r { transform-box: fill-box; transition: transform 0.35s ease; }

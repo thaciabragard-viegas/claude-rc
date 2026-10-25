@@ -5,6 +5,9 @@
 import { s } from '../engine/svg.js';
 import { BELA, BANDANAS } from '../config.js';
 import { bandanaFill } from './items.js';
+import { spriteInfo } from '../engine/sprites.js';
+
+const SPRITE_H = 128; // altura da Bela-imagem, na mesma escala do desenho
 
 const OUT = '#6B4A3A';
 export const BELA_STATES = ['wait', 'excited', 'run', 'fetch', 'curious', 'pet', 'shake', 'rest', 'sniff', 'hide'];
@@ -94,7 +97,26 @@ export function createBela({ bandana = 'coral' } = {}) {
     fluff(-40, -92, 11, 10, c.fur, { n: 8, amp: 0.1 }),
     s('path', { d: 'M-50 -76 Q-46 -90 -38 -92', fill: 'none', stroke: c.furDark, 'stroke-width': 3, 'stroke-linecap': 'round', opacity: 0.6 }));
 
-  const stand = s('g', { class: 'b-stand' },
+  // Bela a partir da imagem (se existir): mesma caixa do desenho, olhando para a direita.
+  const sp = spriteInfo(c.sprite?.stand);
+  let stand;
+  if (sp) {
+    const H = SPRITE_H;
+    const W = (H * sp.w) / sp.h;
+    const flipX = c.sprite.facing !== 'right';
+    const at = ([fx, fy]) => ({ x: 4 + (flipX ? W / 2 - fx * W : -W / 2 + fx * W), y: -H + fy * H });
+    const nose = at(c.sprite.nose || [0.1, 0.22]);
+    const col = at(c.sprite.collar || [0.3, 0.52]);
+    mouth.setAttribute('transform', `translate(${(nose.x - 8).toFixed(1)} ${(nose.y + 30).toFixed(1)}) scale(0.85)`);
+    bandanaG.setAttribute('transform', `translate(${(col.x - 37).toFixed(1)} ${(col.y + 8 + 60).toFixed(1)})`);
+    stand = s('g', { class: 'b-stand' },
+      s('g', { class: 'b-pose' },
+        s('g', { transform: `translate(4 0) scale(${flipX ? -1 : 1} 1)` },
+          s('image', { href: c.sprite.stand, x: -W / 2, y: -H, width: W, height: H }))),
+      bandanaG, mud, foam, wet,
+      s('g', { transform: `translate(${(col.x - 30).toFixed(1)} ${(-H + 104).toFixed(1)}) scale(0.82)` }, hat),
+      mouth);
+  } else stand = s('g', { class: 'b-stand' },
     tail,
     leg(-38, 'b-leg-b1', true), leg(-20, 'b-leg-b2'),
     fluff(0, -46, 48, 31, c.fur, { n: 16, amp: 0.05 }),
@@ -114,7 +136,11 @@ export function createBela({ bandana = 'coral' } = {}) {
       s('circle', { cx: x - 5, cy: -85, r: 1.8, fill: c.pads }),
       s('circle', { cx: x, cy: -87, r: 1.8, fill: c.pads }),
       s('circle', { cx: x + 5, cy: -85, r: 1.8, fill: c.pads })));
-  const belly = s('g', { class: 'b-belly' },
+  const spB = spriteInfo(c.sprite?.belly);
+  const belly = spB ? s('g', { class: 'b-belly' },
+    s('g', { class: 'b-pose' },
+      s('image', { href: c.sprite.belly, x: -((70 * spB.w) / spB.h) / 2, y: -70, width: (70 * spB.w) / spB.h, height: 70 })))
+  : s('g', { class: 'b-belly' },
     s('g', { class: 'b-tail2' }, fluff(-60, -26, 15, 13, c.fur, { n: 10, amp: 0.1 })),
     pawUp(-30, -14), pawUp(-12, -5),
     fluff(0, -28, 54, 27, c.fur, { n: 18, amp: 0.05 }),
@@ -133,7 +159,7 @@ export function createBela({ bandana = 'coral' } = {}) {
   const hearts = s('g', { class: 'b-fx' });
   const shadow = s('ellipse', { class: 'b-shadow', cx: 0, cy: 0, rx: 58, ry: 9, fill: '#5B7A3A', opacity: 0.18 });
   const body = s('g', { class: 'b-body' }, stand, belly);
-  const root = s('g', { class: 'bela state-wait pose-stand', 'data-testid': 'bela', id }, shadow, body, hearts);
+  const root = s('g', { class: `bela state-wait pose-stand${sp ? ' sprite' : ''}`, 'data-testid': 'bela', id }, shadow, body, hearts);
 
   const api = {
     el: root,

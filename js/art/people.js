@@ -2,6 +2,9 @@
 // Cores, cabelo, roupa e foto vêm de config.CHARACTERS / COUSINS (fáceis de trocar).
 import { s } from '../engine/svg.js';
 import { OUT, heart, starPath } from './items.js';
+import { spriteInfo } from '../engine/sprites.js';
+
+const SPRITE_H = 152; // altura de um adulto no desenho (antes de `size`)
 
 const st = (w = 3) => ({ stroke: OUT, 'stroke-width': w, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' });
 let uid = 0;
@@ -112,7 +115,25 @@ function torso(cfg) {
   return g;
 }
 
+// Personagem a partir de uma imagem de corpo inteiro (pés na origem).
+function spritePerson(cfg, sp) {
+  const w = (SPRITE_H * sp.w) / sp.h;
+  const body = s('g', { class: 'p-body p-sprite' },
+    s('image', { href: cfg.sprite, x: -w / 2, y: -SPRITE_H, width: w, height: SPRITE_H, preserveAspectRatio: 'xMidYMax meet' }));
+  const root = s('g', { class: 'person', 'data-name': cfg.short || cfg.name },
+    s('ellipse', { cx: 0, cy: 0, rx: 30, ry: 6, fill: '#5B7A3A', opacity: 0.2 }),
+    s('g', { class: 'p-wrap', transform: `scale(${cfg.size || 1})` }, body));
+  return {
+    el: root,
+    // sem braço separado na imagem: o aceno vira um balancinho
+    wave(on = true) { root.classList.toggle('waving', on); },
+    cheer(on = true) { root.classList.toggle('cheering', on); },
+  };
+}
+
 export function createPerson(cfg) {
+  const sp = spriteInfo(cfg.sprite);
+  if (sp) return spritePerson(cfg, sp);
   const id = `p${++uid}`;
   const light = cfg.hairLight || cfg.hair;
   let face;

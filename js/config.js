@@ -5,6 +5,10 @@
 // da Mel, cabelo longo da Mamãe, Bela de pelúcia caramelo com coleira de carinhas). Os demais
 // ainda são PROVISÓRIOS, só para os personagens serem fáceis de distinguir.
 // Para usar uma foto no rosto, coloque o arquivo em /images e preencha `photo`.
+//
+// `sprite`: imagem de corpo inteiro com fundo transparente (PNG ou WebP), usada no lugar do desenho.
+// Ficam em images/personagens/, pasta que o git ignora (o repositório é público e as imagens
+// mostram a família). Se o arquivo não existir, o jogo usa o desenho vetorial.
 
 export const GAME = {
   title: 'Mel & Bela',
@@ -24,12 +28,14 @@ export const CHARACTERS = {
     outfitStyle: 'overalls', shirt: '#FFFFFF', outfit: '#F27D8A', pants: '#F27D8A', shoes: '#F9B8C8',
     skin: '#E6B28A', hair: '#8A5631', hairLight: '#B57A48', hairStyle: 'curlyLong', smile: 'open',
     badge: null, photo: null, voicePitch: 1.5,
+    sprite: 'images/personagens/mel.webp',
   },
   mamae: {
     name: 'Mamãe Thacia', short: 'Mamãe', size: 1,
     outfitStyle: 'tee', shirt: '#FFFFFF', outfit: '#FFFFFF', pants: '#7FA7D2', shoes: '#FFFFFF',
     skin: '#E2AD86', hair: '#4E2F22', hairLight: '#7A4A33', hairStyle: 'longWavy', smile: 'open',
     badge: 'necklace', photo: null, voicePitch: 1.2,
+    sprite: 'images/personagens/mamae.webp',
   },
   papai: {
     name: 'Papai Bruno', short: 'Papai', size: 1.04,
@@ -67,6 +73,15 @@ export const BELA = {
   eye: '#231C19',
   collar: '#E8406A',   // coleira
   collarDots: '#FFC93C', // carinhas amarelas da coleira
+  // Imagens (opcionais, ver `sprite` acima). Posições em fração da imagem: nariz e centro da coleira.
+  // `facing`: para que lado a Bela olha na imagem ('left' ou 'right'); o jogo espelha quando preciso.
+  sprite: {
+    stand: 'images/personagens/bela.webp',
+    belly: null, // de barriga para cima: quando chegar, salve como images/personagens/bela-barriga.webp e coloque o caminho aqui
+    facing: 'left',
+    nose: [0.1, 0.22],
+    collar: [0.3, 0.52],
+  },
 };
 
 // Bandanas. `reward` indica a brincadeira que libera a bandana (recompensa previsível).

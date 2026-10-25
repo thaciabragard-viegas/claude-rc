@@ -1,5 +1,5 @@
 // Ponto de entrada: monta a interface fixa (HUD), o roteador de cenas e o estado salvo.
-import { GAME } from './config.js';
+import { GAME, CHARACTERS, COUSINS, BELA } from './config.js';
 import { Scope, gameNow, ease } from './engine/clock.js';
 import { s, h, toSvgPoint, toScreenPoint } from './engine/svg.js';
 import * as audio from './engine/audio.js';
@@ -9,6 +9,7 @@ import { makeRng } from './logic/rng.js';
 import { ICONS } from './art/icons.js';
 import { hand, sparkle, heart } from './art/items.js';
 import { SCENES } from './scenes/index.js';
+import { preloadSprites } from './engine/sprites.js';
 
 const app = document.getElementById('app');
 const svg = document.getElementById('stage');
@@ -238,7 +239,8 @@ export function unlockAudio() {
 }
 
 applyAudioSettings();
-go('title');
+const spriteUrls = [...Object.values(CHARACTERS), ...COUSINS].map((c) => c.sprite).concat(BELA.sprite ? [BELA.sprite.stand, BELA.sprite.belly] : []);
+preloadSprites(spriteUrls).then(() => go('title'));
 
 // PWA: registra o service worker para funcionar sem internet depois do primeiro acesso.
 if ('serviceWorker' in navigator && location.protocol !== 'file:' && !new URLSearchParams(location.search).has('nosw')) {

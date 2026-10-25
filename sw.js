@@ -18,6 +18,7 @@ const ASSETS = [
   'js/engine/svg.js',
   'js/engine/audio.js',
   'js/engine/voice.js',
+  'js/engine/sprites.js',
   'js/logic/state.js',
   'js/logic/rng.js',
   'js/logic/hunt.js',
