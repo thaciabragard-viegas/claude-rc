@@ -84,7 +84,7 @@ Na área dos adultos dá para:
 ## Personalização (fotos, nomes, cores, vozes)
 
 Está tudo em um único arquivo: [`js/config.js`](js/config.js). O passo a passo está em [`docs/PERSONALIZACAO.md`](docs/PERSONALIZACAO.md).
-A aparência atual da família e da Bela é **provisória**: cores e cabelos foram escolhidos só para diferenciar os personagens.
+Mel, Mamãe e Bela já seguem a referência visual enviada pela família (descrita em `docs/PERSONALIZACAO.md`). Papai, Teteu, Tia Laura e os primos ainda são provisórios.
 
 ## Tecnologia (e por quê)
 
@@ -138,7 +138,7 @@ O teste de ponta a ponta usa o Playwright (precisa estar instalado) e faz os ges
   * o tempo de resposta;
   * as áreas seguras (notch);
   * a volta depois de trocar de aplicativo.
-* Os personagens são provisórios até chegarem fotos ou referências.
+* Papai, Teteu, Tia Laura e os primos são provisórios até chegarem as referências deles.
 * A qualidade da voz sintetizada depende do aparelho. As gravações da família ainda não foram feitas, mas o jogo já aceita os arquivos.
 * Expansões planejadas, ainda não implementadas: Restaurante da Bela, Circuito do Teteu, Passeio no parque e Aventura com os primos.
   A cozinha e o portão do parque já aparecem no jardim como cenário (não são botões).

@@ -1,7 +1,7 @@
 // Service worker: guarda os arquivos do jogo para funcionar sem internet depois do primeiro acesso.
 // Estratégia: rede primeiro (sempre a versão mais nova quando online); sem rede, usa a cópia guardada.
 // Ao adicionar arquivos ao jogo, inclua-os em ASSETS (um teste automático confere a lista).
-const CACHE = 'melbela-v1';
+const CACHE = 'melbela-v2';
 const ASSETS = [
   './',
   'index.html',

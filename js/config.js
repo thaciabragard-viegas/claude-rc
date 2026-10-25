@@ -1,8 +1,9 @@
 // Configuração central do jogo: personagens, cores, bandanas, falas e gravações.
 // Para personalizar, edite apenas este arquivo (veja docs/PERSONALIZACAO.md).
 //
-// IMPORTANTE: cabelo, pele e roupas abaixo são PROVISÓRIOS. Não representam a aparência
-// real de ninguém; foram escolhidos só para os personagens serem fáceis de distinguir.
+// Aparência: Mel, Mamãe e Bela seguem a referência visual enviada pela família (cachinhos e sorriso
+// da Mel, cabelo longo da Mamãe, Bela de pelúcia caramelo com coleira de carinhas). Os demais
+// ainda são PROVISÓRIOS, só para os personagens serem fáceis de distinguir.
 // Para usar uma foto no rosto, coloque o arquivo em /images e preencha `photo`.
 
 export const GAME = {
@@ -11,18 +12,24 @@ export const GAME = {
   storageKey: 'melbela.v1',
 };
 
-// hairStyle: 'short' | 'long' | 'bun' | 'pigtails' | 'curly' | 'none'
-// badge: ícone no peito que ajuda a reconhecer a pessoa sem ler ('heart' | 'ball' | 'cone' | 'flower' | 'star' | 'leaf')
+// hairStyle: 'short' | 'long' | 'longWavy' | 'bun' | 'pigtails' | 'curly' | 'curlyLong' | 'none'
+// outfitStyle: 'shirt' (camiseta de manga longa na cor `outfit`) | 'tee' (camiseta `shirt`, manga curta)
+//              | 'overalls' (camiseta `shirt` + jardineira na cor `outfit`, com shortinho)
+// smile: 'open' (sorriso aberto) ou omitido. hairLight: cor do brilho do cabelo.
+// badge: ícone no peito que ajuda a reconhecer sem ler ('heart' | 'ball' | 'cone' | 'flower' | 'star' | 'leaf'),
+//        'necklace' (colarzinho) ou null
 export const CHARACTERS = {
   mel: {
     name: 'Mel', short: 'Mel', size: 0.74,
-    outfit: '#FF8FA3', pants: '#FFD3B0', skin: '#F2C6A0', hair: '#7A5236', hairStyle: 'pigtails',
-    badge: 'star', photo: null, voicePitch: 1.5,
+    outfitStyle: 'overalls', shirt: '#FFFFFF', outfit: '#F27D8A', pants: '#F27D8A', shoes: '#F9B8C8',
+    skin: '#E6B28A', hair: '#8A5631', hairLight: '#B57A48', hairStyle: 'curlyLong', smile: 'open',
+    badge: null, photo: null, voicePitch: 1.5,
   },
   mamae: {
     name: 'Mamãe Thacia', short: 'Mamãe', size: 1,
-    outfit: '#FF7F6B', pants: '#6B5B8C', skin: '#E9B892', hair: '#5A3B2A', hairStyle: 'long',
-    badge: 'heart', photo: null, voicePitch: 1.2,
+    outfitStyle: 'tee', shirt: '#FFFFFF', outfit: '#FFFFFF', pants: '#7FA7D2', shoes: '#FFFFFF',
+    skin: '#E2AD86', hair: '#4E2F22', hairLight: '#7A4A33', hairStyle: 'longWavy', smile: 'open',
+    badge: 'necklace', photo: null, voicePitch: 1.2,
   },
   papai: {
     name: 'Papai Bruno', short: 'Papai', size: 1.04,
@@ -47,14 +54,19 @@ export const COUSINS = [
   { name: 'Prima', short: 'Prima', size: 0.76, outfit: '#5CC9C0', pants: '#FFD3B0', skin: '#E2AE86', hair: '#2E1F18', hairStyle: 'bun', badge: 'flower', photo: null, voicePitch: 1.45 },
 ];
 
-// Bela: cores provisórias. Ajuste para ficar parecida com a Bela de verdade.
+// Bela: cores da referência visual (pelúcia caramelo, focinho creme, coleira rosa com carinhas).
 export const BELA = {
   name: 'Bela',
-  fur: '#E8B77E',      // pelo principal
-  furLight: '#FFF1DC', // focinho, peito e patinhas
-  ear: '#B9814F',      // orelhas
-  nose: '#4A3328',
-  eye: '#3A2A22',
+  fur: '#D9852F',      // pelo principal (caramelo-alaranjado)
+  furDark: '#C2701F',  // sombra do pelo
+  furLight: '#FFF0D6', // focinho, peito, barriga e patinhas
+  ear: '#8E4F24',      // orelhas
+  earLight: '#B06A35',
+  pads: '#7A4A2A',     // almofadinhas das patas
+  nose: '#231C19',
+  eye: '#231C19',
+  collar: '#E8406A',   // coleira
+  collarDots: '#FFC93C', // carinhas amarelas da coleira
 };
 
 // Bandanas. `reward` indica a brincadeira que libera a bandana (recompensa previsível).

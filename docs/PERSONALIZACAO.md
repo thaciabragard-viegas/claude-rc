@@ -10,10 +10,12 @@ Cada pessoa tem:
 | Campo | O que muda |
 | --- | --- |
 | `name` / `short` | Nome completo e nome curto |
-| `outfit`, `pants` | Cor da roupa (código de cor, ex.: `'#FF7F6B'`) |
-| `skin`, `hair` | Cor da pele e do cabelo |
-| `hairStyle` | `'short'`, `'long'`, `'bun'` (coque), `'pigtails'` (maria-chiquinha), `'curly'` ou `'none'` |
-| `badge` | Ícone na roupa que ajuda a reconhecer sem ler: `'heart'`, `'ball'`, `'cone'`, `'flower'`, `'star'`, `'leaf'` |
+| `outfitStyle` | `'shirt'` (manga longa na cor `outfit`), `'tee'` (camiseta `shirt` de manga curta) ou `'overalls'` (camiseta `shirt` + jardineira `outfit` com shortinho) |
+| `shirt`, `outfit`, `pants`, `shoes` | Cores da camiseta, da roupa/jardineira, da calça e do tênis (código de cor, ex.: `'#FF7F6B'`) |
+| `skin`, `hair`, `hairLight` | Cor da pele, do cabelo e do brilho do cabelo |
+| `hairStyle` | `'short'`, `'long'`, `'longWavy'` (longo ondulado), `'bun'` (coque), `'pigtails'` (maria-chiquinha), `'curly'`, `'curlyLong'` (cachinhos volumosos) ou `'none'` |
+| `smile` | `'open'` para sorriso aberto, ou omita para sorriso simples |
+| `badge` | Ícone na roupa que ajuda a reconhecer sem ler: `'heart'`, `'ball'`, `'cone'`, `'flower'`, `'star'`, `'leaf'`, `'necklace'` (colarzinho) ou `null` |
 | `photo` | Foto do rosto (opcional). Coloque o arquivo em `images/` e escreva, por exemplo, `photo: 'images/mamae.jpg'`. A foto aparece recortada em círculo no lugar do rosto desenhado. Use uma foto quadrada, com o rosto centralizado. |
 | `size` | Altura relativa (adulto = 1) |
 | `voicePitch` | Tom da voz sintetizada (0.5 a 2) |
@@ -24,9 +26,20 @@ Os primos (`COUSINS`) aparecem na celebração do piquenique. Dá para renomear,
 
 ## Bela (`BELA`)
 
-Cores do pelo (`fur`), do focinho e peito (`furLight`), das orelhas (`ear`), do nariz e dos olhos.
-O desenho é provisório: ajuste as cores para ficar parecida com a Bela de verdade.
-Para mudar o formato (orelhas em pé, rabo enrolado etc.), edite `js/art/bela.js`.
+Cores do pelo (`fur`, `furDark`), do focinho, peito e patinhas (`furLight`), das orelhas (`ear`, `earLight`),
+das almofadinhas das patas (`pads`), do nariz, dos olhos e da coleira (`collar`, `collarDots`).
+Para mudar o formato, edite `js/art/bela.js`.
+
+## Referência visual
+
+A aparência da Mel, da Mamãe e da Bela segue a primeira referência visual enviada pela família (out/2026):
+
+* **Mel**: cachinhos castanhos volumosos, sorriso aberto, camiseta branca, jardineira rosa com shortinho e tênis rosa.
+* **Mamãe Thacia**: cabelo castanho-escuro longo e ondulado com risca no meio, camiseta branca, colarzinho, calça jeans e tênis branco.
+* **Bela**: jeitinho de pelúcia, pelo caramelo-alaranjado, focinho, peito e patas creme, orelhas caídas marrons, rabo enrolado e felpudo, coleira rosa com carinhas amarelas. A pose de barriga para cima é obrigatória.
+
+A imagem de referência **não** está no repositório, porque ele é público e a imagem mostra o rosto da Mel.
+Para guardá-la junto ao projeto no seu computador, use a pasta `docs/referencias/`, que o git ignora.
 
 ## Bandanas (`BANDANAS`)
 
