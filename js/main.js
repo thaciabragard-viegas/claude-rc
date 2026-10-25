@@ -19,7 +19,18 @@ const fade = document.getElementById('fade');
 const fxLayer = document.getElementById('fx');
 voice.setCaptionElement(document.getElementById('caption'));
 
-let state = load(localStorage, GAME.storageKey);
+// Armazenamento local; se o navegador bloquear (janela privada, página incorporada), guarda só na memória.
+const storage = (() => {
+  try {
+    const ls = window.localStorage;
+    ls.getItem('x');
+    return ls;
+  } catch {
+    const m = new Map();
+    return { getItem: (k) => m.get(k) ?? null, setItem: (k, v) => m.set(k, String(v)) };
+  }
+})();
+let state = load(storage, GAME.storageKey);
 const rng = makeRng();
 let current = null; // { name, scope, params }
 let transitioning = false;
@@ -36,7 +47,7 @@ function applyAudioSettings() {
 export function getState() { return state; }
 export function setState(next) {
   state = next;
-  save(localStorage, GAME.storageKey, state);
+  save(storage, GAME.storageKey, state);
   applyAudioSettings();
   return state;
 }
@@ -224,11 +235,11 @@ window.__game = debug;
 // Retomar depois de trocar de aplicativo: salva ao sair e redesenha ao voltar.
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
-    save(localStorage, GAME.storageKey, state);
+    save(storage, GAME.storageKey, state);
     voice.stopVoice();
   }
 });
-window.addEventListener('pagehide', () => save(localStorage, GAME.storageKey, state));
+window.addEventListener('pagehide', () => save(storage, GAME.storageKey, state));
 
 // Primeiro toque: libera o áudio no celular.
 export function unlockAudio() {
@@ -243,6 +254,8 @@ const spriteUrls = [...Object.values(CHARACTERS), ...COUSINS].map((c) => c.sprit
 preloadSprites(spriteUrls).then(() => go('title'));
 
 // PWA: registra o service worker para funcionar sem internet depois do primeiro acesso.
-if ('serviceWorker' in navigator && location.protocol !== 'file:' && !new URLSearchParams(location.search).has('nosw')) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
-}
+try {
+  if ('serviceWorker' in navigator && location.protocol !== 'file:' && !new URLSearchParams(location.search).has('nosw')) {
+    window.addEventListener('load', () => { try { navigator.serviceWorker.register('sw.js').catch(() => {}); } catch { /* sem modo offline aqui */ } });
+  }
+} catch { /* página incorporada: sem service worker */ }
